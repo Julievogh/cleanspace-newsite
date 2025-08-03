@@ -1,9 +1,10 @@
+// src/components/Services.jsx
 import Button from "./Button";
 
 const services = [
   {
     title: "Erhvervsrengøring",
-    headline: "Rengøring i dybden", // <- ny tekst her!
+    headline: "Rengøring i dybden",
     desc: "Vi gør din arbejdsplads skinnende ren og sund – fra skrivebord til kantine og toiletfaciliteter. Tilpasset netop jeres behov.",
     icon: "/icons/vacuum-icon.svg",
     image: "/images/erhvervsreng.png",
@@ -38,63 +39,58 @@ const services = [
 export default function Services() {
   return (
     <section className="py-14 bg-brand-sky/40">
-      <div className="grid-12 max-w-4xl mx-auto">
-        {/* Headline */}
-        <div className="col-span-12 mb-10 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-brand-blue mb-1">
+      <div className="grid-12 gap-y-10">
+        {/* Overskrift */}
+        <div className="col-span-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-brand-blue">
             Hvad vi tilbyder
           </h2>
         </div>
-        {/* Services */}
+
+        {/* Service-kort */}
         {services.map((srv, idx) => (
-          <div key={srv.title} className="col-span-12 mb-6">
-            {/* Her bruger vi kun 10 kolonner, og centrerer med mx-auto */}
-            <div className="grid grid-cols-10 mx-auto items-stretch bg-white rounded-2xl border border-brand-sky overflow-hidden shadow-lg">
-              {/* IMAGE */}
+          <div key={srv.title} className="col-span-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 bg-white rounded-2xl border border-brand-sky overflow-hidden shadow-lg">
+              {/* Billede */}
               <div
-                className={
-                  idx % 2 === 0
-                    ? "col-span-5 order-1"
-                    : "col-span-5 col-start-6 order-2"
-                }
+                className={`w-full h-56 md:h-64 lg:h-72 ${
+                  idx % 2 !== 0 ? "md:order-2" : ""
+                }`}
               >
                 <img
                   src={srv.image}
                   alt={srv.title}
-                  className="object-cover w-full h-full min-h-[220px] max-h-[340px]"
+                  className="w-full h-full object-cover"
                   loading="lazy"
                 />
               </div>
-              {/* TEXT */}
+
+              {/* Tekst */}
               <div
-                className={
-                  idx % 2 === 0
-                    ? "col-span-5 flex flex-col justify-center py-12 px-10 gap-4 order-2"
-                    : "col-span-5 flex flex-col justify-center py-12 px-10 gap-4 order-1"
-                }
+                className={`flex flex-col p-6 md:p-10 ${
+                  idx % 2 !== 0 ? "md:order-1" : ""
+                }`}
               >
-                <h3 className="text-2xl md:text-3xl font-extrabold text-brand-blue mb-4 text-center">
+                <h3 className="text-2xl md:text-3xl font-extrabold text-brand-blue mb-2">
                   {srv.title}
                 </h3>
-                <img
-                  src={srv.icon}
-                  alt=""
-                  className="w-8 h-8 mb-2 shrink-0 grow-0 basis-auto align-center"
-                  style={{ maxWidth: "2rem", maxHeight: "2rem" }}
-                />
 
-                <p className="font-extrabold text-brand-blue text-xl md:text-2xl mb-3 w-full text-left">
-                  {srv.headline}
-                </p>
-                <p className="text-base md:text-lg text-brand-blue mb-8 w-full text-left leading-relaxed">
+                <div className="flex items-center gap-3 mb-3">
+                  <img src={srv.icon} alt="" className="w-6 h-6" />
+                  <p className="text-xl md:text-2xl font-semibold text-brand-blue leading-tight">
+                    {srv.headline}
+                  </p>
+                </div>
+
+                <p className="text-sm md:text-base text-brand-blue/90 leading-relaxed mb-6">
                   {srv.desc}
                 </p>
+
                 <Button
                   variant="secondary"
                   as="a"
                   href={srv.href}
-                  className="mx-auto mt-2 text-brand-blue border-2 border-brand-blue px-10 py-3 rounded-none font-bold text-lg bg-white hover:bg-brand-blue hover:text-white transition"
-                  style={{ minWidth: 220 }}
+                  className="mt-auto inline-block px-6 py-2 border-2 border-brand-blue rounded-lg text-brand-blue font-bold text-base hover:bg-brand-blue hover:text-white transition"
                 >
                   Læs Mere &gt;
                 </Button>
@@ -102,8 +98,9 @@ export default function Services() {
             </div>
           </div>
         ))}
-        {/* Knappen under services */}
-        <div className="col-span-12 flex justify-center mt-7">
+
+        {/* Alle Services-knap */}
+        <div className="col-span-12 text-center">
           <Button
             variant="primary"
             as="a"
