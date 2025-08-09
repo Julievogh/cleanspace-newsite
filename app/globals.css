@@ -7,6 +7,7 @@
   --brand-yellow: #ffd600;
   --brand-gold: #e7b600;
   --brand-sky: #eaf6fb;
+
   --brand-turquoise: #3399bc;
   --font-sans: "Inter", system-ui, sans-serif;
 }
@@ -186,6 +187,7 @@ a:hover {
 
 /* ---- BUTTONS ---- */
 .btn-primary {
+  cursor: pointer;
   background: var(--brand-yellow);
   color: var(--brand-blue);
   font-weight: 700;
@@ -199,9 +201,11 @@ a:hover {
 .btn-primary:hover,
 .btn-primary:focus {
   background: var(--brand-gold);
+  cursor: pointer;
 }
 
 .btn-secondary {
+  cursor: pointer;
   background: transparent;
   color: var(--brand-blue);
   border: 2px solid var(--brand-blue);
@@ -213,6 +217,7 @@ a:hover {
 }
 .btn-secondary:hover,
 .btn-secondary:focus {
+  cursor: pointer;
   background: var(--brand-blue);
   color: #fff;
 }

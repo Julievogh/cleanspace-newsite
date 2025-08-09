@@ -7,6 +7,7 @@ import Satisfaction from "./components/SatisfactionSection";
 import ContactForm from "./components/ContactForm";
 import Footer from "./components/Footer";
 import FadeInSection from "./components/FadeInSection";
+import ArticlesSection from "./components/Articles";
 import "./globals.css";
 
 export default function Home() {
@@ -33,13 +34,16 @@ export default function Home() {
       </FadeInSection>
       <div>
         <img
-          src="/images/stockimg.png"
+          src="/images/middlephoto1.png"
           alt="stockimage"
           className="w-full h-auto object-cover"
         />
       </div>
       <FadeInSection>
         <ContactForm />
+      </FadeInSection>
+      <FadeInSection>
+        <ArticlesSection />
       </FadeInSection>
 
       <FadeInSection>
