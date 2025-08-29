@@ -73,7 +73,7 @@ export default function Hero() {
         <div className="md:col-span-6 flex justify-end">
           <div className="relative w-[560px] h-[560px]">
             <img
-              src="/images/hero2.png"
+              src="/images/Hero2.png"
               alt="Professionelt rengøringsteam"
               className="absolute inset-0 w-full h-full object-contain z-10"
             />
