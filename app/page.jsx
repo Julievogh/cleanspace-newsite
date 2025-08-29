@@ -25,14 +25,14 @@ export default function Home() {
       <FadeInSection>
         <Testimonial
           quote="CleanSpace har gjort rent for os i 2 år – vi er meget tilfredse. De er serviceorienterede og altid til at få fat på. Vi kan klart anbefale dem."
-          author="– Kirsten, Kontorchef, Adlex"
+          author="– Kirsten, Kontorchef"
           logo="/logos/adlex.png"
         />
       </FadeInSection>
       <FadeInSection>
         <Satisfaction />
       </FadeInSection>
-      <div>
+      <div className="relative -mt-18 z-10">
         <img
           src="/images/middlephoto1.png"
           alt="stockimage"
@@ -43,7 +43,9 @@ export default function Home() {
         <ContactForm />
       </FadeInSection>
       <FadeInSection>
-        <ArticlesSection />
+        {/*
+        Opdater med rigitge artikler
+        <ArticlesSection />*/}
       </FadeInSection>
 
       <FadeInSection>

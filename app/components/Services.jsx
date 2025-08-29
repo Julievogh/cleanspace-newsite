@@ -6,22 +6,25 @@ const services = [
     title: "Erhvervsrengøring",
     headline: "Rengøring i dybden",
     desc: "Vi gør din arbejdsplads skinnende ren og sund – fra skrivebord til kantine og toiletfaciliteter. Tilpasset netop jeres behov.",
+    tag: "Fleksible løsninger til erhvervskunder",
     icon: "/icons/vacuum-icon.svg",
-    image: "/images/erhvervsreng.png",
+    image: "/images/cleaningshadow.jpg",
     href: "/services/erhvervsrengoering",
   },
   {
     title: "Hovedrengøring",
     headline: "Grundig hovedrengøring",
-    desc: "Når det skal være ekstra grundigt: Alt fra afkalkning til fjernelse af genstridigt snavs, så dit miljø føles helt nyt.",
+    desc: "Når det skal være ekstra grundigt: Alt fra afkalkning til fjernelse af genstridigt snavs, så dit miljø føles helt nyt. Perfekt til forårsrengøring eller flytterengøring.  Tæpperense, polish og opskurring tilbydes m.m.",
+    tag: "Vi gør rent, hvor andre ikke kommer",
     icon: "/icons/bucket-icon.svg",
-    image: "/images/hovedrengøring.png",
+    image: "/images/toilet.jpg",
     href: "/services/hovedrengoering",
   },
   {
     title: "Trappevask",
     headline: "Skinnende trapper",
     desc: "Faste eller engangsbesøg – vi sørger for pæne, trygge opgange i både boligforeninger og erhverv.",
+    tag: "Vi tager trappen til et nyt niveau",
     icon: "/icons/broom-icon.svg",
     image: "/images/trappevask.png",
     href: "/services/trappevask",
@@ -30,15 +33,16 @@ const services = [
     title: "Vinduespolering",
     headline: "Perfekt vinduespolering",
     desc: "Klare ruder hver gang – uden striber eller skjolder. Vi polerer både indendørs og udendørs.",
+    tag: "Det bedste valg for dine vinduer",
     icon: "/icons/window-icon.svg",
-    image: "/images/vinduespolering.png",
+    image: "/images/windows.jpg",
     href: "/services/vinduespolering",
   },
 ];
 
 export default function Services() {
   return (
-    <section className="py-14 bg-brand-sky/40">
+    <section id="services" className="py-14 bg-brand-sky/40">
       <div className="grid-12 gap-y-10">
         {/* Overskrift */}
         <div className="col-span-12 text-center">
@@ -85,7 +89,11 @@ export default function Services() {
                 <p className="text-sm md:text-base text-brand-blue/90 leading-relaxed mb-6">
                   {srv.desc}
                 </p>
-
+                <p className="mt-auto text-sm md:text-base italic text-brand-blue/70 mb-6">
+                  {srv.tag}
+                </p>
+                {/*
+                BUTTON TILBAGE NÅR VI HAR UNDERSIDE
                 <Button
                   variant="secondary"
                   as="a"
@@ -93,13 +101,13 @@ export default function Services() {
                   className="mt-auto inline-block px-6 py-2 border-2 border-brand-blue rounded-lg text-brand-blue font-bold text-base hover:bg-brand-blue hover:text-white transition"
                 >
                   Læs Mere &gt;
-                </Button>
+                </Button>*/}
               </div>
             </div>
           </div>
         ))}
 
-        {/* Alle Services-knap */}
+        {/* Alle Services-knap 
         <div className="col-span-12 text-center">
           <Button
             variant="primary"
@@ -109,7 +117,7 @@ export default function Services() {
           >
             Alle Services
           </Button>
-        </div>
+        </div>*/}
       </div>
     </section>
   );

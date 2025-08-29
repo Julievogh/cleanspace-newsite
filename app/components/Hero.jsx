@@ -51,11 +51,13 @@ export default function Hero() {
             Kontakt os i dag for et gratis og uforpligtende tilbud – din
             tilfredshed er vores prioritet.
             <br />
-            Vores nøgleord: Effektiv, ansvarlig, pålidelig.
+            <strong>Vores nøgleord: Effektiv, ansvarlig, pålidelig.</strong>
           </p>
 
           <div className="flex gap-5 mt-7">
-            <Button variant="secondary">Kontakt &gt;</Button>
+            <Button as="a" href="#contact" variant="third">
+              Kontakt &gt;
+            </Button>
             <Button
               variant="primary"
               as="a"
@@ -71,7 +73,7 @@ export default function Hero() {
         <div className="md:col-span-6 flex justify-end">
           <div className="relative w-[560px] h-[560px]">
             <img
-              src="/images/hero-photo3.png"
+              src="/images/hero2.png"
               alt="Professionelt rengøringsteam"
               className="absolute inset-0 w-full h-full object-contain z-10"
             />
