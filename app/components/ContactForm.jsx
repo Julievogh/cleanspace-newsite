@@ -40,7 +40,9 @@ export default function ContactForm() {
       }
 
       if (res.ok) {
-        setStatus("Tak! Vi har modtaget din besked.");
+        setStatus(
+          "Tak for din besked - vi kontakter dig indenfor 1-2 hverdage."
+        );
         e.target.reset();
       } else {
         setStatus(result.error || "Noget gik galt, prøv igen.");
@@ -134,8 +136,8 @@ export default function ContactForm() {
           <div className="md:col-span-2 text-center">
             <button
               type="submit"
+              className="bg-[var(--brand-blue)] text-white font-bold rounded-md py-2 px-6 shadow hover:bg-[#0C356A] cursor-pointer"
               disabled={loading}
-              className="bg-[var(--brand-blue)] text-white py-2 px-6 rounded-md shadow"
             >
               {loading ? "Sender..." : "Send >"}
             </button>
