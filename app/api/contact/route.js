@@ -1,4 +1,6 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req) {
   const data = await req.json();
@@ -17,35 +19,26 @@ export async function POST(req) {
     });
   }
 
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST, // send.one.com
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
-
   try {
-    await transporter.sendMail({
-      from: `"CleanSpace Website" <${process.env.SMTP_USER}>`, // afsender skal være One.com adresse
-      to: process.env.SMTP_USER, // modtager
-      replyTo: data.email, // svar går til brugeren
+    // Send email via Resend
+    const email = await resend.emails.send({
+      from: "CleanSpace Website <info@cleanspace.dk>", // skal matche dit domæne på Resend
+      to: "info@cleanspace.dk",
       subject: `Ny besked fra ${data.name}`,
       html: `
         <p><strong>Firma:</strong> ${data.company || "-"}</p>
         <p><strong>Kontaktperson:</strong> ${data.name}</p>
         <p><strong>Telefon:</strong> ${data.phone || "-"}</p>
-        <p><strong>E-mail:</strong> ${data.email}</p>
         <p><strong>Henvendelse drejer sig om:</strong> ${data.subject}</p>
         <p><strong>Bemærkning:</strong><br/>${data.message}</p>
       `,
     });
 
+    console.log("Resend email response:", email);
+
     return new Response(JSON.stringify({ success: true }), { status: 200 });
   } catch (err) {
-    console.error(err);
+    console.error("Fejl i email-sending:", err);
     return new Response(JSON.stringify({ error: "Noget gik galt" }), {
       status: 500,
     });
