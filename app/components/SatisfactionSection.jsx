@@ -3,8 +3,8 @@ import { ChevronDown } from "lucide-react";
 export default function SatisfactionSection() {
   return (
     <section className="relative overflow-hidden">
-      {/* Lyseblå bølge-baggrund - dækker hele teksten */}
-      <div className="absolute inset-0 w-full h-full z-0">
+      {/* Lyseblå bølge-baggrund - dekorativ */}
+      <div className="absolute inset-0 w-full h-full z-0" aria-hidden="true">
         <svg
           className="w-full h-full"
           viewBox="0 0 1440 600"
@@ -18,7 +18,7 @@ export default function SatisfactionSection() {
         </svg>
       </div>
 
-      {/* Teksten ovenpå bølgen */}
+      {/* Tekst ovenpå bølgen */}
       <div className="relative z-10 grid-12 pt-32 pb-10">
         <div className="content-10col text-center text-brand-blue">
           <h2 className="text-3xl md:text-4xl font-bold">
@@ -37,13 +37,16 @@ export default function SatisfactionSection() {
             <p>
               Vi tilbyder et skræddersyet tilbud til din virksomhed, vi sender
               en konsulent ud for at observere jeres lokaler. Derefter sender vi
-              jer et tilbud pr. mail, og følger op med et opkald. Gratis og
-              uforpligtende!
+              jer et tilbud pr. mail, og følger op med et opkald.{" "}
+              <strong>Gratis og uforpligtende!</strong>
             </p>
           </div>
 
           <div className="flex justify-center mt-10">
-            <ChevronDown className="w-8 h-8 text-brand-blue animate-bounce" />
+            <ChevronDown
+              className="w-8 h-8 text-brand-blue animate-bounce"
+              aria-hidden="true"
+            />
           </div>
         </div>
       </div>

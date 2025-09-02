@@ -1,5 +1,5 @@
-// src/components/Services.jsx
 import Button from "./Button";
+import Image from "next/image";
 
 const services = [
   {
@@ -59,13 +59,15 @@ export default function Services() {
               <div
                 className={`w-full h-56 md:h-64 lg:h-72 ${
                   idx % 2 !== 0 ? "md:order-2" : ""
-                }`}
+                } relative`}
               >
-                <img
+                <Image
                   src={srv.image}
-                  alt={srv.title}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
+                  alt={`Billede af ${srv.title}`}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority={idx === 0} // Prioriter første service billede
                 />
               </div>
 
@@ -80,7 +82,13 @@ export default function Services() {
                 </h3>
 
                 <div className="flex items-center gap-3 mb-3">
-                  <img src={srv.icon} alt="" className="w-6 h-6" />
+                  <Image
+                    src={srv.icon}
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="w-6 h-6"
+                  />
                   <p className="text-xl md:text-2xl font-semibold text-brand-blue leading-tight">
                     {srv.headline}
                   </p>
@@ -92,32 +100,14 @@ export default function Services() {
                 <p className="mt-auto text-sm md:text-base italic text-brand-blue/70 mb-6">
                   {srv.tag}
                 </p>
-                {/*
-                BUTTON TILBAGE NÅR VI HAR UNDERSIDE
-                <Button
-                  variant="secondary"
-                  as="a"
-                  href={srv.href}
-                  className="mt-auto inline-block px-6 py-2 border-2 border-brand-blue rounded-lg text-brand-blue font-bold text-base hover:bg-brand-blue hover:text-white transition"
-                >
+                {/* CTA-knap når underside klar */}
+                {/* <Button variant="secondary" as="a" href={srv.href} className="mt-auto inline-block px-6 py-2 border-2 border-brand-blue rounded-lg text-brand-blue font-bold text-base hover:bg-brand-blue hover:text-white transition">
                   Læs Mere &gt;
-                </Button>*/}
+                </Button> */}
               </div>
             </div>
           </div>
         ))}
-
-        {/* Alle Services-knap 
-        <div className="col-span-12 text-center">
-          <Button
-            variant="primary"
-            as="a"
-            href="/services"
-            className="px-8 py-3 rounded-xl text-base font-semibold"
-          >
-            Alle Services
-          </Button>
-        </div>*/}
       </div>
     </section>
   );

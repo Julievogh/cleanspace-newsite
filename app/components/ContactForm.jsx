@@ -29,13 +29,10 @@ export default function ContactForm() {
       });
 
       const resultText = await res.text();
-      console.log("Server response:", resultText);
-
       let result;
       try {
         result = JSON.parse(resultText);
-      } catch (err) {
-        console.error("Kunne ikke parse JSON:", err);
+      } catch {
         result = { error: "Server returnerede ikke JSON" };
       }
 
@@ -47,8 +44,7 @@ export default function ContactForm() {
       } else {
         setStatus(result.error || "Noget gik galt, prøv igen.");
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       setStatus("Noget gik galt, prøv igen.");
     } finally {
       setLoading(false);
@@ -59,12 +55,13 @@ export default function ContactForm() {
     <section id="contact" className="bg-[#E5F6FB] py-12 px-4">
       <div className="w-full max-w-3xl bg-[#E5F6FB] border border-[#0a265633] rounded-lg p-8 text-center mx-auto">
         <h2 className="text-2xl font-bold text-[var(--brand-blue)] mb-1">
-          Få et tilbud på rengøring
+          Få et tilbud på erhvervsrengøring
         </h2>
 
         <form
           onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left"
+          aria-busy={loading}
         >
           <input type="text" name="website" style={{ display: "none" }} />
 
@@ -138,6 +135,7 @@ export default function ContactForm() {
               type="submit"
               className="bg-[var(--brand-blue)] text-white font-bold rounded-md py-2 px-6 shadow hover:bg-[#0C356A] cursor-pointer"
               disabled={loading}
+              aria-busy={loading}
             >
               {loading ? "Sender..." : "Send >"}
             </button>
@@ -145,7 +143,10 @@ export default function ContactForm() {
         </form>
 
         {status && (
-          <p className="text-sm mt-6 font-bold text-[var(--brand-blue)]">
+          <p
+            className="text-sm mt-6 font-bold text-[var(--brand-blue)]"
+            aria-live="polite"
+          >
             {status}
           </p>
         )}
