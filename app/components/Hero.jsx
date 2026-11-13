@@ -1,26 +1,25 @@
-import Button from "./Button";
 import Image from "next/image";
+import Button from "./Button";
 
 export default function Hero() {
   return (
     <section
-      aria-label="Hero sektion - Rengøring af specialister"
-      className="hero-gradient relative w-full text-white min-h-[600px] flex items-center py-14 overflow-hidden"
+      aria-label="Rengøring af specialister"
+      className="hero-gradient relative flex min-h-[600px] w-full items-center overflow-hidden py-14 text-white"
       style={{
         background: "linear-gradient(to bottom right, #0a2656, #3399bc)",
       }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-12 items-center relative max-w-[1300px] mx-auto px-6 gap-8">
-        {/* Venstre: tekst og knapper */}
-        <div className="md:col-span-6 z-10">
+      <div className="relative mx-auto grid w-full max-w-[1300px] grid-cols-1 items-center gap-8 px-6 md:grid-cols-12">
+        <div className="z-10 md:col-span-6">
           <span className="overskrift">25 års rengøringserfaring</span>
 
-          <h1 className="text-[48px] md:text-[72px] font-extrabold leading-[1.1] tracking-[-0.5px] drop-shadow-lg mb-4">
+          <h1 className="mb-4 text-[48px] font-extrabold leading-[1.1] tracking-[-0.5px] drop-shadow-lg md:text-[72px]">
             Rengøring af <br />
             specialister
           </h1>
 
-          <p className="mb-7 text-base text-white/90 max-w-lg">
+          <p className="mb-7 max-w-lg text-base text-white/90">
             Hos CleanSpace har vi leveret professionel rengøring i mere end tre
             årtier. Som et familieejet firma bygger vi på værdier som tillid,
             grundighed og personlig service.
@@ -37,41 +36,31 @@ export default function Hero() {
             <strong>Vores nøgleord: Effektiv, ansvarlig, pålidelig.</strong>
           </p>
 
-          <div className="flex gap-5 mt-7">
+          <div className="mt-7 flex flex-wrap gap-5">
             <Button as="a" href="#contact" variant="third">
               Kontakt CleanSpace &gt;
             </Button>
             <Button
-              variant="primary"
               as="a"
-              href="tel:+4523848088"
+              href="tel:+4560133424"
+              variant="primary"
               className="rounded-2xl px-6 py-3 shadow-lg"
             >
-              +45 23 84 80 88
+              +45 60 13 34 24
             </Button>
           </div>
         </div>
 
-        {/* Højre: billede */}
-        <div className="md:col-span-6 flex justify-end">
-          <div className="relative aspect-square w-full max-w-[560px]">
+        <div className="flex justify-center md:col-span-6 md:justify-end">
+          <div className="relative aspect-[785/764] w-full max-w-[560px]">
             <Image
-              src="/images/Hero2.png"
-              alt="Professionelt rengøringsteam"
+              src="/images/cleanspace-team-original.png"
+              alt="CleanSpace-teamet med Nicolaj i portrættet nederst til højre"
               fill
-              className="object-contain z-10"
-              sizes="(max-width: 767px) 90vw, 45vw"
+              sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1300px) 45vw, 560px"
+              className="object-contain"
               priority
             />
-            <div className="absolute bottom-[7%] right-0 z-20 aspect-[3/4] w-[27%] overflow-hidden rounded-full border-4 border-white bg-white shadow-lg">
-              <Image
-                src="/images/team-portraet.jpeg"
-                alt="Portræt af en person fra CleanSpace"
-                fill
-                sizes="(max-width: 767px) 25vw, 150px"
-                className="object-cover object-[center_32%]"
-              />
-            </div>
           </div>
         </div>
       </div>
