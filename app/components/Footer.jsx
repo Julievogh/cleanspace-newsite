@@ -16,7 +16,7 @@ export default function Footer() {
           <a href="tel:+4523848088" className="hover:underline">
             +45 23 84 80 88
           </a>
-          <div>CVR: 34851077 · Solrød Strandvej 98</div>
+          <div>CVR: 42609080 · Solrød Strandvej 98</div>
           <div>
             &copy; {new Date().getFullYear()} CleanSpace. Alle rettigheder
             forbeholdes.

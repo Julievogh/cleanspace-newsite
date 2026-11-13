@@ -54,14 +54,24 @@ export default function Hero() {
 
         {/* Højre: billede */}
         <div className="md:col-span-6 flex justify-end">
-          <div className="relative w-[560px] h-[560px]">
+          <div className="relative aspect-square w-full max-w-[560px]">
             <Image
               src="/images/Hero2.png"
               alt="Professionelt rengøringsteam"
               fill
               className="object-contain z-10"
+              sizes="(max-width: 767px) 90vw, 45vw"
               priority
             />
+            <div className="absolute bottom-[7%] right-0 z-20 aspect-[3/4] w-[27%] overflow-hidden rounded-full border-4 border-white bg-white shadow-lg">
+              <Image
+                src="/images/team-portraet.jpeg"
+                alt="Portræt af en person fra CleanSpace"
+                fill
+                sizes="(max-width: 767px) 25vw, 150px"
+                className="object-cover object-[center_32%]"
+              />
+            </div>
           </div>
         </div>
       </div>

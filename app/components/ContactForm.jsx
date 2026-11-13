@@ -1,155 +1,179 @@
 "use client";
-import { useState } from "react";
-import Button from "./Button";
+
+import Script from "next/script";
+import { useEffect, useRef, useState } from "react";
+
+const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+
+const subjects = [
+  ["Tilbud", "Bestil et gratis tilbud"],
+  ["Erhvervsrengøring", "Erhvervsrengøring"],
+  ["Hovedrengøring", "Hovedrengøring"],
+  ["Vinduespolering", "Vinduespolering"],
+  ["Trappevask", "Trappevask"],
+  ["Flytterengøring", "Flytterengøring"],
+  ["Spørgsmål", "Spørgsmål"],
+  ["Job", "Job"],
+  ["Andet", "Andet"],
+];
 
 export default function ContactForm() {
+  const widgetContainer = useRef(null);
+  const widgetId = useRef(null);
+  const [scriptReady, setScriptReady] = useState(false);
+  const [token, setToken] = useState("");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
+  const [widgetError, setWidgetError] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (!scriptReady || !SITE_KEY || !widgetContainer.current) return;
+
+    const turnstile = window.turnstile;
+    widgetId.current = turnstile.render(widgetContainer.current, {
+      sitekey: SITE_KEY,
+      action: "contact",
+      callback: (newToken) => {
+        setToken(newToken);
+        setWidgetError(false);
+      },
+      "expired-callback": () => setToken(""),
+      "error-callback": () => {
+        setToken("");
+        setWidgetError(true);
+      },
+    });
+
+    return () => {
+      turnstile.remove(widgetId.current);
+      widgetId.current = null;
+    };
+  }, [scriptReady]);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (loading || !token) return;
+
+    const form = event.currentTarget;
+    const fields = Object.fromEntries(new FormData(form));
+    delete fields["cf-turnstile-response"];
+
     setLoading(true);
     setStatus("");
 
-    const formData = {
-      company: e.target.company.value,
-      name: e.target.name.value,
-      phone: e.target.phone.value,
-      email: e.target.email.value,
-      subject: e.target.subject.value,
-      message: e.target.message.value,
-      website: e.target.website.value, // honeypot
-    };
-
     try {
-      const res = await fetch("/api/contact", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...fields, token }),
       });
 
-      const resultText = await res.text();
-      let result;
-      try {
-        result = JSON.parse(resultText);
-      } catch {
-        result = { error: "Server returnerede ikke JSON" };
+      const result = await response.json();
+      if (!response.ok) {
+        setStatus(result.error || "Beskeden kunne ikke sendes. Prøv igen.");
+        return;
       }
 
-      if (res.ok) {
-        setStatus(
-          "Tak for din besked - vi kontakter dig indenfor 1-2 hverdage."
-        );
-        e.target.reset();
-      } else {
-        setStatus(result.error || "Noget gik galt, prøv igen.");
-      }
+      form.reset();
+      setStatus("Tak for din besked. Vi kontakter dig inden for 1–2 hverdage.");
     } catch {
-      setStatus("Noget gik galt, prøv igen.");
+      setStatus("Beskeden kunne ikke sendes. Prøv igen, eller kontakt os direkte.");
     } finally {
+      setToken("");
+      if (widgetId.current !== null) window.turnstile.reset(widgetId.current);
       setLoading(false);
     }
-  };
+  }
 
   return (
-    <section id="contact" className="bg-[#E5F6FB] py-12 px-4">
-      <div className="w-full max-w-3xl bg-[#E5F6FB] border border-[#0a265633] rounded-lg p-8 text-center mx-auto">
-        <h2 className="text-2xl font-bold text-[var(--brand-blue)] mb-1">
+    <section id="contact" className="bg-[#E5F6FB] px-4 py-12">
+      {SITE_KEY && (
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+          strategy="afterInteractive"
+          onReady={() => setScriptReady(true)}
+          onError={() => setWidgetError(true)}
+        />
+      )}
+
+      <div className="mx-auto w-full max-w-3xl rounded-lg border border-[#0a265633] p-8">
+        <h2 className="mb-4 text-center text-2xl font-bold text-[var(--brand-blue)]">
           Få et tilbud på erhvervsrengøring
         </h2>
 
-        <form
-          onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left"
-          aria-busy={loading}
-        >
-          <input type="text" name="website" style={{ display: "none" }} />
+        <form onSubmit={handleSubmit} aria-busy={loading}>
+          <fieldset
+            disabled={loading}
+            className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2"
+          >
+            <input type="hidden" name="website" defaultValue="" />
 
-          <div>
-            <label htmlFor="company">Firma</label>
-            <input
-              id="company"
-              name="company"
-              type="text"
-              className="form-input"
-            />
-          </div>
-          <div>
-            <label htmlFor="name">Kontaktperson</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              required
-              className="form-input"
-            />
-          </div>
-          <div>
-            <label htmlFor="phone">Telefon</label>
-            <input id="phone" name="phone" type="tel" className="form-input" />
-          </div>
-          <div>
-            <label htmlFor="email">E-mail</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              className="form-input"
-            />
-          </div>
-          <div className="md:col-span-2">
-            <label htmlFor="subject">Hvad drejer henvendelsen sig om?</label>
-            <select
-              id="subject"
-              name="subject"
-              required
-              className="form-input"
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Vælg en mulighed
-              </option>
-              <option value="Tilbud">Bestil et gratis tilbud</option>
-              <option value="Erhvervsrengøring">Erhvervsrengøring</option>
-              <option value="Hovedrengøring">Hovedrengøring</option>
-              <option value="Vinduespolering">Vinduespolering</option>
-              <option value="Trappevask">Trappevask</option>
-              <option value="Flytterengøring">Flytterengøring</option>
-              <option value="Spørgsmål">Spørgsmål</option>
-              <option value="Job">Job</option>
-              <option value="Andet">Andet</option>
-            </select>
-          </div>
-          <div className="md:col-span-2">
-            <label htmlFor="message">Bemærkning</label>
-            <textarea
-              id="message"
-              name="message"
-              rows={4}
-              className="form-input"
-            />
-          </div>
-          <div className="md:col-span-2 text-center">
-            <button
-              type="submit"
-              className="bg-[var(--brand-blue)] text-white font-bold rounded-md py-2 px-6 shadow hover:bg-[#0C356A] cursor-pointer"
-              disabled={loading}
-              aria-busy={loading}
-            >
-              {loading ? "Sender..." : "Send >"}
-            </button>
-          </div>
+            <div>
+              <label htmlFor="company">Firma</label>
+              <input id="company" name="company" className="form-input"
+                autoComplete="organization" maxLength={150} />
+            </div>
+
+            <div>
+              <label htmlFor="name">Kontaktperson</label>
+              <input id="name" name="name" className="form-input"
+                autoComplete="name" maxLength={120} required />
+            </div>
+
+            <div>
+              <label htmlFor="phone">Telefon</label>
+              <input id="phone" name="phone" type="tel" className="form-input"
+                autoComplete="tel" maxLength={40} />
+            </div>
+
+            <div>
+              <label htmlFor="email">E-mail</label>
+              <input id="email" name="email" type="email" className="form-input"
+                autoComplete="email" maxLength={254} required />
+            </div>
+
+            <div className="md:col-span-2">
+              <label htmlFor="subject">Hvad drejer henvendelsen sig om?</label>
+              <select id="subject" name="subject" className="form-input"
+                defaultValue="" required>
+                <option value="" disabled>Vælg en mulighed</option>
+                {subjects.map(([value, label]) => (
+                  <option key={value} value={value}>{label}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="md:col-span-2">
+              <label htmlFor="message">Bemærkning</label>
+              <textarea id="message" name="message" rows={4}
+                className="form-input" maxLength={3000} required />
+            </div>
+
+            <div className="md:col-span-2">
+              <div ref={widgetContainer} />
+              {(!SITE_KEY || widgetError) && (
+                <p role="status" className="mt-2 text-sm">
+                  Bekræftelsen kunne ikke indlæses. Genindlæs siden, eller skriv til{" "}
+                  <a className="underline" href="mailto:info@cleanspace.dk">
+                    info@cleanspace.dk
+                  </a>.
+                </p>
+              )}
+            </div>
+
+            <div className="text-center md:col-span-2">
+              <button
+                type="submit"
+                disabled={loading || !token}
+                className="rounded-md bg-[var(--brand-blue)] px-6 py-2 font-bold text-white shadow hover:bg-[#0C356A] disabled:opacity-50"
+              >
+                {loading ? "Sender…" : "Send besked"}
+              </button>
+            </div>
+          </fieldset>
         </form>
 
-        {status && (
-          <p
-            className="text-sm mt-6 font-bold text-[var(--brand-blue)]"
-            aria-live="polite"
-          >
-            {status}
-          </p>
-        )}
+        <p className="mt-4 text-center text-sm" role="status">{status}</p>
       </div>
     </section>
   );
