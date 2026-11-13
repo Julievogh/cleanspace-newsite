@@ -2,7 +2,7 @@ import { ChevronDown } from "lucide-react";
 
 export default function SatisfactionSection() {
   return (
-    <section className="relative overflow-hidden">
+    <section id="about" className="relative scroll-mt-24 overflow-hidden">
       {/* Lyseblå bølge-baggrund - dekorativ */}
       <div className="absolute inset-0 w-full h-full z-0" aria-hidden="true">
         <svg
